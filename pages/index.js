@@ -44,6 +44,13 @@ export default function Home() {
     {messages.map((message, index) => (
         <div key={index} className="list-group-item list-group-item-action py-3 lh-sm">
             <div className="d-flex w-100 align-items-center justify-content-between">
+              {message.sender === "AI" && (
+                <img src= "/1707458087229-6YZqPu0Esy.png" alt="AI Avatar" className="rounded-circle me-2" style={{width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  objectFit: "cover"
+                }}/> 
+              )}
               <strong className="mb-1">{message.sender}</strong>
             </div>
             <div className="col-10 mb-1 small">{message.message}</div>
