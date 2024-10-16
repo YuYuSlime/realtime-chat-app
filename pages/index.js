@@ -33,6 +33,28 @@ export default function Home() {
   setMessage("");
 };
 
+const playVoice = async (message) => {
+  try {
+    const response = await fetch("http://localhost:8000/api/voice", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message,
+      })
+    });
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    audio.play();
+    }
+    catch(error) {
+      console.log("音声の再生に失敗しました", error);
+    }
+};
+
   return (
     <div className="container">
       <Head>
@@ -51,11 +73,20 @@ export default function Home() {
                   <div className="d-flex">
                     <div className="me-3">
                       {message.sender === "AI" ? (
+                        <>
                         <img src= "/1707458087229-6YZqPu0Esy.png" alt="AI Avatar" className="rounded-circle me-2" style={{width: "40px",
                           height: "40px",
                           borderRadius: "50%",
                           objectFit: "cover"
-                        }}/> 
+                        }}
+                        /> 
+                        <button
+                        className="btn btn-primary mt-2"
+                        onClick={() => playVoice(message.message)}
+                        style={{fontSize: "12px", padding:"5px 10px"}}
+                        >
+                          再生</button>
+                      </>
                       ) : (
                         <img src="/usericon.png"
                         alt="UserAvatar"
